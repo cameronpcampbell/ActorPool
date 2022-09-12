@@ -10,16 +10,14 @@ local TableInsert = table.insert
 local TableFind = table.find
 local TableRemove = table.remove
 
-
 local function createActor(pool)
 	local newActor = pool.baseActor:Clone()
 	newActor.Name = newActor.Name.."-"..pool.actorCount; pool.actorCount += 1
 	newActor:SetAttribute("doingTask", false)
 	
 	newActor:GetAttributeChangedSignal("doingTask"):Connect(function()
-		if not newActor:GetAttribute("doingTask") then
-			TableInsert(pool.available, newActor)
-		end
+		if newActor:GetAttribute("doingTask") then return end
+		table.insert(pool.available, newActor)
 	end)
 	
 	newActor.Parent = pool.folder
@@ -45,9 +43,8 @@ function ActorPool.New(actor, folder, amount)
 	return pool
 end
 
-
 function ActorPoolInsts:Take()
-	return TableRemove(self.available) or createActor(self)
+	return table.remove(self.available) or createActor(self)
 end
 
 return ActorPool
