@@ -18,7 +18,7 @@ local function createActor(pool)
 	
 	newActor:GetAttributeChangedSignal("doingTask"):Connect(function()
 		if not newActor:GetAttribute("doingTask") then
-			table.insert(pool.available, newActor)
+			TableInsert(pool.available, newActor)
 		end
 	end)
 	
@@ -47,7 +47,7 @@ end
 
 
 function ActorPoolInsts:Take()
-	return table.remove(self.available) or createActor(self)
+	return TableRemove(self.available) or createActor(self)
 end
 
 return ActorPool
