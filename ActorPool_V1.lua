@@ -17,7 +17,7 @@ local function createActor(pool)
 	
 	newActor:GetAttributeChangedSignal("doingTask"):Connect(function()
 		if newActor:GetAttribute("doingTask") then return end
-		table.insert(pool.available, newActor)
+		TableInsert(pool.available, newActor)
 	end)
 	
 	newActor.Parent = pool.folder
@@ -44,7 +44,7 @@ function ActorPool.New(actor, folder, amount)
 end
 
 function ActorPoolInsts:Take()
-	return table.remove(self.available) or createActor(self)
+	return TableRemove(self.available) or createActor(self)
 end
 
 return ActorPool
