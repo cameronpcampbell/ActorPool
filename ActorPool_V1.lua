@@ -4,22 +4,16 @@ ActorPool.__index = ActorPool
 local ActorPoolInsts = {}
 ActorPoolInsts.__index = ActorPoolInsts
 
--- optimisations
-local TableCreate = table.create
-local TableInsert = table.insert
-local TableFind = table.find
-local TableRemove = table.remove
-
 local function createActor(pool)
 	local newActor = pool.baseActor:Clone()
 	newActor.Name = newActor.Name.."-"..pool.actorCount; pool.actorCount += 1
 	newActor:SetAttribute("doingTask", false)
-	
+
 	newActor:GetAttributeChangedSignal("doingTask"):Connect(function()
 		if newActor:GetAttribute("doingTask") then return end
-		TableInsert(pool.available, newActor)
+		table.insert(pool.available, newActor)
 	end)
-	
+
 	newActor.Parent = pool.folder
 	return newActor
 end
@@ -31,20 +25,20 @@ function ActorPool.New(actor, folder, amount)
 		folder=folder,
 		actorCount = 1
 	}, ActorPoolInsts)
-	
-	local actors = TableCreate(amount)
+
+	local actors = table.create(amount)
 	for count = 1,amount do
 		local newActor = createActor(pool)
-		TableInsert(actors, newActor)
+		table.insert(actors, newActor)
 	end
-	
+
 	pool.available = actors
-	
+
 	return pool
 end
 
 function ActorPoolInsts:Take()
-	return TableRemove(self.available) or createActor(self)
+	return table.remove(self.available) or createActor(self)
 end
 
 return ActorPool
