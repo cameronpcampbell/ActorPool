@@ -16,7 +16,7 @@ RunEvent.Event:ConnectParallel(function(...)
 	-- Your code here
 	
 	-- To return data from an actor do:
-		-- ReturnEvent:Fire(...)
+	-- ReturnEvent:Fire(...)
 end)
 ```
 - - -
