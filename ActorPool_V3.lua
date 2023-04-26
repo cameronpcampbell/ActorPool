@@ -4,41 +4,64 @@ local ActorPoolInsts = {}; ActorPoolInsts.__index = ActorPoolInsts
 local ActorInsts = {}; ActorInsts.__index = ActorInsts
 
 local function createActor(poolBaseActor:Actor, poolFolder:Folder, poolAvailable)
-	local newActor = poolBaseActor:Clone()
+	local newActor:Actor = poolBaseActor:Clone()
 	newActor.Parent = poolFolder
 	
-	local actorData = setmetatable(
-		{actor=newActor, available=poolAvailable, runFunc=newActor:FindFirstChildWhichIsA("BindableFunction")},
-		ActorInsts
-	)
+	local actorData = setmetatable({
+		actor=newActor, available=poolAvailable,
+		runEvent=newActor.RunEvent, returnEvent=newActor:FindFirstChild("ReturnEvent"),
+		autoPutBack=false, inUse=false, doingWork=false
+	}, ActorInsts)
 	
 	return actorData
 end
 
-function ActorPool.new(baseActor:Actor, folder:Folder, amount:number)
-	local pool = setmetatable({baseActor=baseActor, folder=folder}, ActorPoolInsts)
+function ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
+	local pool = setmetatable({baseActor=baseActor, folder=actorsFolder}, ActorPoolInsts)
 	
 	local actorScript = baseActor:FindFirstChildWhichIsA("BaseScript")
 	assert(actorScript, "Your base actor needs a BaseScript inside of it!")
 	if not actorScript.Enabled then warn("Its recommended for uour base actor's script to be be Disabled!") end
-	assert(baseActor:FindFirstChildWhichIsA("BindableFunction"), "Your base actor needs a bindableFunction inside of it!")
+	
+	local runEvent, returnEvent = baseActor:FindFirstChild("RunEvent"), baseActor:FindFirstChild("ReturnEvent")
+	assert(runEvent, "Your base actor needs a BindableEvent called \"RunEvent\" inside of it!")
 
 	local available = table.create(amount)
-	for count = 1,amount do table.insert(available, createActor(baseActor, folder, available)) end
+	for count = 1,amount do table.insert(available, createActor(baseActor, actorsFolder, available)) end
 	pool.available = available
 
 	return pool
 end
 
-function ActorPoolInsts:take()
-	return table.remove(self.available) or createActor(self.baseActor, self.folder, self.available)
+function ActorPoolInsts:take(autoPutBack:boolean)
+	local actor = table.remove(self.available) or createActor(self.baseActor, self.folder, self.available)
+	actor.autoPutBack = autoPutBack; actor.inUse = true
+	return actor
 end
 
 function ActorInsts:run(...)
-	local data = self.runFunc:Invoke(...)
-	table.insert(self.available, self)
+	assert(self.inUse, "You may not use this actor as it is not currently taken from the pool!")
+	local runEvent, returnEvent = self.runEvent, self.returnEvent
+	
+	self.doingWork = true
+	
+	runEvent:Fire(...)
+	local data = returnEvent and returnEvent.Event:Wait()
+	
+	if self.autoPutBack then
+		self.autoPutBack = false; self.inUse = false
+		table.insert(self.available, self)
+	end
+	
+	self.doingWork = false
 	
 	return data
+end
+
+function ActorInsts:putBack()
+	assert(not self.doingWork, "This actor is currently doing work so it may not be put back in the pool at this moment!")
+	self.autoPutBack = false; self.inUse = false
+	table.insert(self.available, self)
 end
 
 return ActorPool
