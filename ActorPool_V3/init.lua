@@ -59,7 +59,7 @@ end
 function ActorInsts:runPromise(...)
 	assert(self.inUse, "You may not use this actor as it is not currently taken from the pool!")
 	self.doingWork = true
-	
+
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
 	local args = {...}
 
