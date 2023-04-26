@@ -57,7 +57,7 @@ myActorFromPool:run(...)
 
 ## Running Code Inside An Actor With A Promise
 ```lua
-myActorFromPool:runPromise(5,5)
+myActorFromPool:runPromise(...)
 ```
 - - -
 
