@@ -4,7 +4,7 @@
 
 ## Setting Up A Base Actor
 1. Create a new `Actor`.
-2. Add a `Script` to said `Actor`, and then disable the Script. *The code inside of the `Script` should follow the boilerplate below*.
+2. Add a `Script` to said `Actor`. *The code inside of the `Script` should follow the boilerplate below*.
 3. Add a `BindableFunction` called `RunEvent` to the `Actor`,
 4. (Optional) If you want to return data from your Actor then add a  `BindableFunction` called `ReturnEvent` to the `Actor`. **If `ReturnEvent` exists then you need to fire it at the end of your actors code.**
 
