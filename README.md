@@ -12,8 +12,11 @@ Script Code Boilerplate
 ```lua
 local RunEvent, ReturnEvent = script.Parent.RunEvent, script.Parent.ReturnEvent
 
-RunEvent.Event:ConnectParallel(function(num1, num2)
+RunEvent.Event:ConnectParallel(function(...)
 	-- Your code here
+	
+	-- To return data from an actor do:
+		-- ReturnEvent:Fire(...)
 end)
 ```
 - - -
