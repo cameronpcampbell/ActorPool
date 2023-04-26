@@ -11,10 +11,9 @@ local TableRemove = table.remove
 local function createActor(pool, addToPool)
 	local newActor = pool.baseActor:Clone()
 	newActor.Name = newActor.Name.."-"..pool.actorCount+1; pool.actorCount += 1
-	newActor:SetAttribute("doingTask", false)
 	newActor:FindFirstChildOfClass("Script").Disabled = false
 	newActor.Parent = pool.folder
-	
+
 	local actorData = setmetatable({actor=newActor, returnEvent=newActor.ReturnEvent.Event}, ActorInsts)
 
 	newActor.ReturnEvent.Event:Connect(function()
@@ -48,8 +47,7 @@ function ActorPoolInsts:Take()
 end
 
 function ActorInsts:Run(...)
-	self.actor:SetAttribute("doingTask", true)
-	return self.actor.RunEvent:Fire(...)
+	self.actor.RunEvent:Fire(...)
 end
 
 return ActorPool
