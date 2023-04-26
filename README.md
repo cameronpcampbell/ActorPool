@@ -4,9 +4,9 @@
 
 ## Setting Up A Base Actor
 1. Create a new `Actor`.
-2. Add a `Script` to said `Actor`, and then disable the Script. *The code inside of the `Script` should follow the boilerplate below*
+2. Add a `Script` to said `Actor`, and then disable the Script. *The code inside of the `Script` should follow the boilerplate below*.
 3. Add a `BindableFunction` called `RunEvent` to the `Actor`,
-4. (Optional) If you want to return data from your Actor then add a  `BindableFunction` called `ReturnEvent` to the `Actor`
+4. (Optional) If you want to return data from your Actor then add a  `BindableFunction` called `ReturnEvent` to the `Actor`,
 
 Script Code Boilerplate
 ```lua
@@ -46,4 +46,13 @@ local actorFromPool = myPool:take(autoPutBack:boolean?)
 - - -
 
 ## Running Code Inside An Actor
+```lua
+actorFromPool:run(...)
+```
+`...` = the arguements to send to the `Script` inside of the actor from the pool.
+- - -
 
+## Returning An Actor To The Pool
+```lua
+actorFromPool:putBack()
+```
