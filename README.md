@@ -21,6 +21,8 @@ local ActorPool = require(game:GetService("ReplicatedStorage").ActorPool)
 local pool = ActorPool.new(baseActor, actorsFolder, amount)
 ```
 `baseActor` = The actor of which all actors in your pool will be a clone of. **This actor will not be included in your pool**.
+
 `actorsFolder` = The folder where all of your actors that are in your pool will be parented to. 
+
 `amount` = The amount of actors to initially create. 
 
