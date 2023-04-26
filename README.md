@@ -30,7 +30,7 @@ local ActorPool = require(game:GetService("ReplicatedStorage").ActorPool)
 
 ## Creating A Pool Of Actors
 ```lua
-local pool = ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
+local myPool = ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
 ```
 `baseActor` = The actor of which all actors in your pool will be a clone of. **This actor will not be included in your pool**.
 
@@ -42,7 +42,7 @@ local pool = ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
 
 ## Taking An Actor From The Pool
 ```lua
-local actorFromPool = myPool:take(autoPutBack:boolean?)
+local myActorFromPool = myPool:take(autoPutBack:boolean?)
 ```
 `autoPutBack` = If this is `true` then after `:run` is called on the actor, said actor will automatically be returned to the pool.
 
@@ -50,12 +50,12 @@ local actorFromPool = myPool:take(autoPutBack:boolean?)
 
 ## Running Code Inside An Actor
 ```lua
-actorFromPool:run(...)
+myActorFromPool:run(...)
 ```
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
 - - -
 
 ## Returning An Actor To The Pool
 ```lua
-actorFromPool:putBack()
+myActorFromPool:putBack()
 ```
