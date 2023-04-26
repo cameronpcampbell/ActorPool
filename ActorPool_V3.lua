@@ -6,23 +6,19 @@ local ActorInsts = {}; ActorInsts.__index = ActorInsts
 local function createActor(poolBaseActor:Actor, poolFolder:Folder, poolAvailable)
 	local newActor:Actor = poolBaseActor:Clone()
 	newActor.Parent = poolFolder
-	
+
 	local actorData = setmetatable({
 		actor=newActor, available=poolAvailable,
 		runEvent=newActor.RunEvent, returnEvent=newActor:FindFirstChild("ReturnEvent"),
 		autoPutBack=false, inUse=false, doingWork=false
 	}, ActorInsts)
-	
+
 	return actorData
 end
 
 function ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
 	local pool = setmetatable({baseActor=baseActor, folder=actorsFolder}, ActorPoolInsts)
-	
-	local actorScript = baseActor:FindFirstChildWhichIsA("BaseScript")
-	assert(actorScript, "Your base actor needs a BaseScript inside of it!")
-	if not actorScript.Enabled then warn("Its recommended for uour base actor's script to be be Disabled!") end
-	
+
 	local runEvent, returnEvent = baseActor:FindFirstChild("RunEvent"), baseActor:FindFirstChild("ReturnEvent")
 	assert(runEvent, "Your base actor needs a BindableEvent called \"RunEvent\" inside of it!")
 
@@ -42,19 +38,19 @@ end
 function ActorInsts:run(...)
 	assert(self.inUse, "You may not use this actor as it is not currently taken from the pool!")
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
-	
+
 	self.doingWork = true
-	
+
 	runEvent:Fire(...)
 	local data = returnEvent and returnEvent.Event:Wait()
-	
+
 	if self.autoPutBack then
 		self.autoPutBack = false; self.inUse = false
 		table.insert(self.available, self)
 	end
-	
+
 	self.doingWork = false
-	
+
 	return data
 end
 
