@@ -20,7 +20,7 @@ end)
 
 ## Importing The Module
 ```lua
-local myPool = require(game:GetService("ReplicatedStorage").ActorPool)
+local ActorPool = require(game:GetService("ReplicatedStorage").ActorPool)
 ```
 
 - - -
