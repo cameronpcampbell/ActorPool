@@ -55,6 +55,12 @@ myActorFromPool:run(...)
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
 - - -
 
+## Running Code Inside An Actor With A Promise
+```lua
+myActorFromPool:runPromise(5,5)
+```
+- - -
+
 ## Returning An Actor To The Pool
 ```lua
 myActorFromPool:putBack()
