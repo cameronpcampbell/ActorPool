@@ -87,11 +87,20 @@ myActorFromPool:waitUntilFreePromise()
 ```
 
 <details>
-	<summary>Example</summary>
-	
-	pool:take(true):waitUntilFreePromise():andThen(function(self)
-		self:runPromise(1):andThen(print)
-	end)
+  <summary>Click me</summary>
+  
+  ### Heading
+  1. Foo
+  2. Bar
+     * Baz
+     * Qux
+
+  ### Some Code
+  ```js
+  function logSomething(something) {
+    console.log('Something', something);
+  }
+  ```
 </details>
 
 - - -
