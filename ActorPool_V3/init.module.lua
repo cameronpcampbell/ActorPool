@@ -67,7 +67,7 @@ end
 function Actor:putBack()
 	assert(not self.doingWork, "This actor is currently doing work so it may not be put back in the pool at this moment!")
 	self.autoPutBack = false
-	self.inUse = false
+	self.outOfPool = false
 	table.insert(self.available, self)
 end
 
