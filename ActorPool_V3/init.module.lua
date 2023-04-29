@@ -9,17 +9,17 @@ local function createActor(poolBaseActor: Actor, poolFolder: Folder, poolAvailab
 	local newActor: Actor = poolBaseActor:Clone()
 	newActor.Parent = poolFolder
 
-	local actorData = setmetatable({
+	local actorData = {
 		actor = newActor,
 		available = poolAvailable,
 		runEvent = newActor.RunEvent,
 		returnEvent = newActor:FindFirstChild("ReturnEvent"),
 		autoPutBack = false,
 		outOfPool = false,
-		doingWork = false,
-	}, Connection)
+		doingWork = false
+	}
 
-	return actorData
+	return setmetatable(actorData, Connection)
 end
 
 function Pool:take(autoPutBack: boolean)
