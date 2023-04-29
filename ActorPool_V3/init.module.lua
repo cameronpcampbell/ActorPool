@@ -1,7 +1,7 @@
 --!strict
 
 local Pool = {}; Pool.__index = Pool
-local Actor = {}; Actor.__index = Actor
+local Connection = {}; Connection.__index = Connection
 
 local Promise = require(script.Promise)
 
@@ -17,7 +17,7 @@ local function createActor(poolBaseActor: Actor, poolFolder: Folder, poolAvailab
 		autoPutBack = false,
 		outOfPool = false,
 		doingWork = false,
-	}, Actor)
+	}, Connection)
 
 	return actorData
 end
@@ -29,7 +29,7 @@ function Pool:take(autoPutBack: boolean)
 	return actor
 end
 
-function Actor:run(...)
+function Connection:run(...)
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
 	assert(not self.doingWork, "You may not use this actor as it is currently doing another task!")
 	
@@ -45,7 +45,7 @@ function Actor:run(...)
 	return data
 end
 
-function Actor:runPromise(...)
+function Connection:runPromise(...)
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
 	assert(not self.doingWork, "You may not use this actor as it is currently doing another task!")
 
@@ -64,20 +64,20 @@ function Actor:runPromise(...)
 	end)
 end
 
-function Actor:putBack()
+function Connection:putBack()
 	assert(not self.doingWork, "This actor is currently doing work so it may not be put back in the pool at this moment!")
 	self.autoPutBack = false
 	self.outOfPool = false
 	table.insert(self.available, self)
 end
 
-function Actor:waitUntilFree()
+function Connection:waitUntilFree()
 	repeat task.wait() until self.doingWork == false
 	
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
 end
 
-function Actor:waitUntilFreePromise()
+function Connection:waitUntilFreePromise()
 	return Promise.new(function(resolve, reject, onCancel)
 		repeat task.wait() until self.doingWork == false
 		
