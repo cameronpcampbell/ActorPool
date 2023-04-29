@@ -72,7 +72,7 @@ return function(baseActor: Actor, actorsFolder: Folder, amount: number)
 	local pool = setmetatable({ baseActor = baseActor, folder = actorsFolder }, Pool)
 
 	local runEvent, returnEvent = baseActor:FindFirstChild("RunEvent"), baseActor:FindFirstChild("ReturnEvent")
-	assert(runEvent, "Your base actor needs a BindableEvent called "RunEvent" inside of it!")
+	assert(runEvent, 'Your base actor needs a BindableEvent called "RunEvent" inside of it!')
 
 	local available = table.create(amount)
 	for count = 1, amount do
