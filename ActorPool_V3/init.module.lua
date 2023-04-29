@@ -31,7 +31,7 @@ end
 
 function Actor:run(...)
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
-	assert(not self.doingWork, "You may not use this actor as it is not currently doing another task!")
+	assert(not self.doingWork, "You may not use this actor as it is currently doing another task!")
 	
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
 
@@ -47,7 +47,7 @@ end
 
 function Actor:runPromise(...)
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
-	assert(not self.doingWork, "You may not use this actor as it is not currently doing another task!")
+	assert(not self.doingWork, "You may not use this actor as it is currently doing another task!")
 
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
 	local args = { ... }
