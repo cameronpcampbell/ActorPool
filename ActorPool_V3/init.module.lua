@@ -71,6 +71,21 @@ function Actor:putBack()
 	table.insert(self.available, self)
 end
 
+function Actor:waitUntilFree()
+	repeat task.wait() until self.doingWork == false
+	
+	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
+end
+
+function Actor:waitUntilFreePromise()
+	return Promise.new(function(resolve, reject, onCancel)
+		repeat task.wait() until self.doingWork == false
+		
+		if not self.outOfPool then reject("You may not use this actor as it is not currently taken from the pool!") end
+		resolve(self)
+	end)
+end
+
 return function(baseActor: Actor, actorsFolder: Folder, amount: number)
 	local pool = setmetatable({ baseActor = baseActor, folder = actorsFolder }, Pool)
 
