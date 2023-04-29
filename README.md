@@ -54,6 +54,7 @@ local myActorFromPool = myPool:take(autoPutBack:boolean?)
 myActorFromPool:run(...)
 ```
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
+
 - - -
 
 ## Running Code From The Actors Script (Promise)
@@ -61,6 +62,7 @@ myActorFromPool:run(...)
 myActorFromPool:runPromise(...)
 ```
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
+
 - - -
 
 ## Returning An Actor To The Pool
@@ -68,11 +70,15 @@ myActorFromPool:runPromise(...)
 myActorFromPool:putBack()
 ```
 
+- - -
+
 ## Waiting For An Actor To Be Free
 The below methods waits until a specified Actor has finished with whatever work/task they were doing.
 ```lua
 myActorFromPool:waitUntilFree()
 ```
+
+- - -
 
 ## Waiting For An Actor To Be Free (Promise)
 The below methods waits until a specified Actor has finished with whatever work/task they were doing.
