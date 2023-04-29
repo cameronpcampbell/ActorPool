@@ -96,10 +96,10 @@ myActorFromPool:waitUntilFreePromise()
      * Qux
 
   ### Some Code
-  ```js
-  function logSomething(something) {
-    console.log('Something', something);
-  }
+  ```lua
+  pool:take(true):waitUntilFreePromise():andThen(function(self)
+  	self:runPromise(1):andThen(print)
+  end)
   ```
 </details>
 
