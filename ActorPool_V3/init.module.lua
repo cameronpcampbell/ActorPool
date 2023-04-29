@@ -15,7 +15,7 @@ local function createActor(poolBaseActor: Actor, poolFolder: Folder, poolAvailab
 		runEvent = newActor.RunEvent,
 		returnEvent = newActor:FindFirstChild("ReturnEvent"),
 		autoPutBack = false,
-		inUse = false,
+		outOfPool = false,
 		doingWork = false,
 	}, Actor)
 
@@ -25,12 +25,14 @@ end
 function Pool:take(autoPutBack: boolean)
 	local actor = table.remove(self.available) or createActor(self.baseActor, self.folder, self.available)
 	actor.autoPutBack = autoPutBack
-	actor.inUse = true
+	actor.outOfPool = true
 	return actor
 end
 
 function Actor:run(...)
-	assert(self.inUse, "You may not use this actor as it is not currently taken from the pool!")
+	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
+	assert(not self.doingWork, "You may not use this actor as it is not currently doing another task!")
+	
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
 
 	self.doingWork = true
@@ -44,12 +46,13 @@ function Actor:run(...)
 end
 
 function Actor:runPromise(...)
-	assert(self.inUse, "You may not use this actor as it is not currently taken from the pool!")
-	self.doingWork = true
+	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
+	assert(not self.doingWork, "You may not use this actor as it is not currently doing another task!")
 
 	local runEvent, returnEvent = self.runEvent, self.returnEvent
 	local args = { ... }
-
+	
+	self.doingWork = true
 	return Promise.new(function(resolve, reject, onCancel)
 		runEvent:Fire(table.unpack(args))
 		local data = returnEvent and returnEvent.Event:Wait()
