@@ -30,7 +30,7 @@ local ActorPool = require(game:GetService("ReplicatedStorage").ActorPool)
 
 ## Creating A Pool Of Actors
 ```lua
-local myPool = ActorPool.new(baseActor:Actor, actorsFolder:Folder, amount:number)
+local myPool = ActorPool(baseActor:Actor, actorsFolder:Folder, amount:number)
 ```
 `baseActor` = The actor of which all actors in your pool will be a clone of. **This actor will not be included in your pool**.
 
