@@ -41,6 +41,7 @@ local myPool = ActorPool(baseActor:Actor, actorsFolder:Folder, amount:number)
 - - -
 
 ## Taking An Actor From The Pool
+When using the method below you get returned a `connection` object.
 ```lua
 local myActorFromPool = myPool:take(autoPutBack:boolean?)
 ```
@@ -48,7 +49,7 @@ local myActorFromPool = myPool:take(autoPutBack:boolean?)
 
 - - -
 
-## Running Code Inside An Actor
+## Running Code From The Actors Script
 ```lua
 myActorFromPool:run(...)
 ```
@@ -66,3 +67,7 @@ myActorFromPool:runPromise(...)
 ```lua
 myActorFromPool:putBack()
 ```
+
+- - -
+
+# Reusing 
