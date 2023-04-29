@@ -73,7 +73,7 @@ myActorFromPool:putBack()
 - - -
 
 ## Waiting For An Actor To Be Free
-The below methods waits until a specified Actor has finished with whatever work/task they were doing.
+The below method waits until a specified Actor has finished with whatever work/task they were doing.
 ```lua
 myActorFromPool:waitUntilFree()
 ```
@@ -81,7 +81,7 @@ myActorFromPool:waitUntilFree()
 - - -
 
 ## Waiting For An Actor To Be Free (Promise)
-The below methods waits until a specified Actor has finished with whatever work/task they were doing.
+The below method waits until a specified Actor has finished with whatever work/task they were doing.
 ```lua
 myActorFromPool:waitUntilFreePromise()
 ```
