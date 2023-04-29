@@ -56,7 +56,7 @@ myActorFromPool:run(...)
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
 - - -
 
-## Running Code Inside An Actor With A Promise
+## Running Code From The Actors Script (Promise)
 ```lua
 myActorFromPool:runPromise(...)
 ```
@@ -68,6 +68,54 @@ myActorFromPool:runPromise(...)
 myActorFromPool:putBack()
 ```
 
+## Waiting For An Actor To Be Free
+The below methods waits until a specified Actor has finished with whatever work/task they were doing.
+```lua
+myActorFromPool:waitUntilFree()
+```
+
+## Waiting For An Actor To Be Free (Promise)
+The below methods waits until a specified Actor has finished with whatever work/task they were doing.
+```lua
+myActorFromPool:waitUntilFreePromise()
+```
+
+<details>
+	<summary>Example</summary>
+	```lua
+	pool:take(true):waitUntilFreePromise():andThen(function(self)
+		self:runPromise(1):andThen(print)
+	end)
+	```
+</details>
+
 - - -
 
-# Reusing 
+# Reusing Connections
+Please note that in most circumstances using a different connection (actor) from the pool is preferred over using the same connection.
+
+If you are not using promises then reusing actors is simple.
+```lua
+local conn = pool:take()
+
+print(conn:run(1))
+print(conn:run(2))
+```
+
+However if you are using promises then you need to make sure that you use the `:waitUntilFree()` method to make sure that the actor/connection is available to do more work.
+```lua
+local conn = pool:take()
+
+conn:run(1))
+print(conn:run(2))
+```
+
+A more sophisticated approach would be to use the `:waitUntilFreePromise()` method instead.
+```lua
+local conn = pool:take()
+
+conn:runPromise(1):andThen(print)
+conn:waitUntilFreePromise():andThen(function()
+	conn:runPromise(2):andThen(print)
+end)
+```
