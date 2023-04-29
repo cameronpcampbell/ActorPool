@@ -89,13 +89,6 @@ myActorFromPool:waitUntilFreePromise()
 <details>
   <summary>Click me</summary>
   
-  ### Heading
-  1. Foo
-  2. Bar
-     * Baz
-     * Qux
-
-  ### Some Code
   ```lua
   pool:take(true):waitUntilFreePromise():andThen(function(self)
   	self:runPromise(1):andThen(print)
