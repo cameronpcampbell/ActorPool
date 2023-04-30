@@ -113,11 +113,12 @@ However if you are using promises then you need to make sure that you use the `:
 ```lua
 local conn = myPool:take()
 
-conn:run(1))
-print(conn:run(2))
+conn:runAsync(1):andThen(print)
+conn:waitUntilFree()
+conn:runAsync(2):andThen(print)
 ```
 
-A more sophisticated approach would be to use the `:waitUntilFreeAsync()` method instead.
+A more sophisticated approach would use the `:waitUntilFreeAsync()` method instead.
 ```lua
 local conn = myPool:take()
 
