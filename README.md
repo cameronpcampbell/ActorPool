@@ -90,7 +90,7 @@ myActorFromPool:waitUntilFreeAsync()
   <summary>Example</summary>
   
   ```lua
-  pool:take(true):waitUntilFreeAsync():andThen(function(self)
+  myPool:take(true):waitUntilFreeAsync():andThen(function(self)
   	self:runAsync(1):andThen(print)
   end)
   ```
@@ -103,7 +103,7 @@ Please note that in most circumstances using a different connection (actor) from
 
 If you are not using promises then reusing actors is simple.
 ```lua
-local conn = pool:take()
+local conn = myPool:take()
 
 print(conn:run(1))
 print(conn:run(2))
@@ -111,7 +111,7 @@ print(conn:run(2))
 
 However if you are using promises then you need to make sure that you use the `:waitUntilFree()` method to make sure that the actor/connection is available to do more work.
 ```lua
-local conn = pool:take()
+local conn = myPool:take()
 
 conn:run(1))
 print(conn:run(2))
@@ -119,7 +119,7 @@ print(conn:run(2))
 
 A more sophisticated approach would be to use the `:waitUntilFreeAsync()` method instead.
 ```lua
-local conn = pool:take()
+local conn = myPool:take()
 
 conn:runAsync(1):andThen(print)
 conn:waitUntilFreeAsync():andThen(function()
