@@ -59,7 +59,7 @@ myActorFromPool:run(...)
 
 ## Running Code From The Actors Script (Promise)
 ```lua
-myActorFromPool:runPromise(...)
+myActorFromPool:runAsync(...)
 ```
 `...` = the arguements to send to the `Script` inside of the actor from the pool.
 
@@ -83,15 +83,15 @@ myActorFromPool:waitUntilFree()
 ## Waiting For An Actor To Be Free (Promise)
 The below method waits until a specified Actor has finished with whatever work/task they were doing.
 ```lua
-myActorFromPool:waitUntilFreePromise()
+myActorFromPool:waitUntilFreeAsync()
 ```
 
 <details>
   <summary>Example</summary>
   
   ```lua
-  pool:take(true):waitUntilFreePromise():andThen(function(self)
-  	self:runPromise(1):andThen(print)
+  pool:take(true):waitUntilFreeAsync():andThen(function(self)
+  	self:runAsync(1):andThen(print)
   end)
   ```
 </details>
@@ -117,12 +117,12 @@ conn:run(1))
 print(conn:run(2))
 ```
 
-A more sophisticated approach would be to use the `:waitUntilFreePromise()` method instead.
+A more sophisticated approach would be to use the `:waitUntilFreeAsync()` method instead.
 ```lua
 local conn = pool:take()
 
-conn:runPromise(1):andThen(print)
-conn:waitUntilFreePromise():andThen(function()
-	conn:runPromise(2):andThen(print)
+conn:runAsync(1):andThen(print)
+conn:waitUntilFreeAsync():andThen(function()
+	conn:runAsync(2):andThen(print)
 end)
 ```
