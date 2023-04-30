@@ -45,7 +45,7 @@ function Connection:run(...)
 	return data
 end
 
-function Connection:runPromise(...)
+function Connection:runAsync(...)
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
 	assert(not self.doingWork, "You may not use this actor as it is currently doing another task!")
 
@@ -77,7 +77,7 @@ function Connection:waitUntilFree()
 	assert(self.outOfPool, "You may not use this actor as it is not currently taken from the pool!")
 end
 
-function Connection:waitUntilFreePromise()
+function Connection:waitUntilFreeAsync()
 	return Promise.new(function(resolve, reject, onCancel)
 		repeat task.wait() until self.doingWork == false
 		
